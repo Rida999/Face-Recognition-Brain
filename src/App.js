@@ -60,6 +60,7 @@ export default class App extends Component {
        input:'',
        imgURL:'',
        route:'signin',
+       isSignedin:false,
     }
   }
 
@@ -72,8 +73,14 @@ export default class App extends Component {
   }
 
   onRouteChange=(route)=>{
-    setTimeout(()=>this.setState({route:route}),500)
-  }
+    setTimeout(()=>{this.setState({route:route});
+    if(route==='home'){
+      this.setState({isSignedin:true});
+    }
+    else{
+      this.setState({isSignedin:false});
+    }
+  },500)}
   
   render() {
     return (
@@ -81,10 +88,10 @@ export default class App extends Component {
       <Particles
       className='particles'
     params={particlesOptions} />
+      <Navigation onRouteChange={this.onRouteChange} isSignedin={this.state.isSignedin} />
       {this.state.route==='signin'?<Signin onRouteChange={this.onRouteChange}/>:
       (this.state.route==='home'?
       <div>
-        <Navigation onRouteChange={this.onRouteChange} />
         <Logo />
         <Rank />
         <ImageLinkForm onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
